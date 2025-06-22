@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # 课堂随机点名系统
 
 ## 项目简介
@@ -109,5 +108,7 @@ home_work/
 本项目采用 [MIT License](LICENSE)。
 ||||||| empty tree
 =======
+
 # random-picker
->>>>>>> origin/main
+
+> > > > > > > origin/main
