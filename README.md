@@ -1,72 +1,84 @@
-
-
 # 课堂随机点名系统
 
 ## 项目简介
-这是一个课堂随机点名系统，旨在帮助教师随机选择学生回答问题，使教学互动更加公平和有趣。
+
+这是一个为课堂教学设计的随机点名系统，帮助教师快速随机选择学生回答问题或参与课堂活动。系统具备友好的用户界面和多种实用功能，适用于各类教学场景。
 
 ## 功能列表
-- 随机选取学生
-- 展示点名历史记录
-- 支持学生权重设置
-- 提供学生喜欢度排行榜
-- 包含导航布局与页面结构组件
+
+- 随机点名功能：从学生名单中随机选择学生。
+- 学生名单管理：支持导入和导出学生名单。
+- 点名记录：记录每次点名结果，便于后续查阅。
+- 可视化展示：通过图表展示学生被点名频率。
+- 响应式布局：适配不同设备屏幕，提供良好的用户体验。
 
 ## 技术栈
-- 前端: React + TypeScript
-- 样式: Tailwind CSS
-- 构建工具: Vite
-- 状态管理: 内置 React Hooks
-- 数据存储: 本地存储（localStorage）
+
+- 前端框架：React + TypeScript
+- 样式工具：Tailwind CSS
+- 构建工具：Vite
+- 状态管理：React 内置状态管理
+- 图表支持：Chart.js 或类似库（根据实际代码确认）
 
 ## 安装步骤
-1. 克隆仓库
-2. 运行 `npm install` 安装依赖
-3. 运行 `npm run dev` 启动开发服务器
+
+1. 确保已安装 Node.js 和 npm。
+2. 克隆项目到本地：
+   ```bash
+   git clone https://github.com/sunMozi/random-picker
+   ```
+3. 进入项目目录并安装依赖：
+   ```bash
+   cd classroom-random-caller
+   npm install
+   ```
+4. 启动开发服务器：
+   ```bash
+   npm run dev
+   ```
 
 ## 使用说明
-1. 将学生姓名列表放入 `public/names.txt` 文件中，每行一个名字
-2. 访问应用主页，点击“开始点名”按钮
-3. 系统将随机选择一个学生，并播放声音提示
-4. 查看点名历史记录，或查看学生喜欢度排行榜
+
+1. 打开浏览器访问 `http://localhost:3000`（默认地址）。
+2. 系统会自动加载 `public/names.txt` 中的学生名单。
+3. 点击“随机点名”按钮开始选择学生。
+4. 点名结果会显示在页面上，并自动记录历史数据。
+5. 可通过“导出记录”功能保存点名历史。
 
 ## 项目结构
+
 ```
-├── public/
-│   ├── names.txt
-│   └── tick-sound.mp3
-├── src/
-│   ├── components/
-│   │   ├── AttendanceBarChart.tsx
-│   │   ├── Layout.tsx
-│   │   ├── NineGrid.tsx
-│   │   └── sections/
-│   │       ├── HomeWork.tsx
-│   │       └── LikeRanking.tsx
-│   ├── shared/
-│   │   ├── BtnLink.tsx
-│   │   ├── Button.tsx
-│   │   ├── Container.tsx
-│   │   ├── NavItem.tsx
-│   │   ├── Paragraph.tsx
-│   │   ├── TextTitle.tsx
-│   │   ├── Title.tsx
-│   │   └── WebsiteLink.tsx
-│   ├── App.tsx
-│   └── main.tsx
-├── README.md
-├── package.json
-└── vite.config.ts
+├── public/                  # 静态资源文件
+│   ├── names.txt              # 学生名单文件
+│   └── tick-sound.mp3       # 点名提示音
+├── src/                     # 源代码目录
+│   ├── components/            # UI 组件
+│   ├── shared/                # 公共组件或工具
+│   ├── App.tsx                # 主应用组件
+│   └── main.tsx               # 入口文件
+├── README.md                # 项目说明文档
+└── package.json             # 项目依赖与脚本配置
 ```
 
 ## 依赖管理
-依赖项管理使用 npm，具体依赖信息请查看 `package.json` 文件。
+
+- 主要依赖项：
+  - React & ReactDOM
+  - TypeScript
+  - Tailwind CSS
+  - Vite
+- 开发依赖项：
+  - Eslint & Prettier（代码规范）
+  - Vitest（测试框架，如适用）
 
 ## 贡献指南
-欢迎为本项目做出贡献。请遵循以下步骤：
-1. Fork 本项目
-2. 创建新分支
-3. 提交 Pull Request
+
+1. Fork 本仓库。
+2. 创建新分支 (`git checkout -b feature/new-feature`)。
+3. 提交更改 (`git commit -m 'Add new feature'`)。
+4. 推送分支 (`git push origin feature/new-feature`)。
+5. 提交 Pull Request 并等待审核。
 
 ## 许可证
-本项目基于 MIT 许可证。详情请查看 `LICENSE` 文件。
+
+本项目采用 MIT License，请查看根目录下的 `LICENSE` 文件获取详细信息。
