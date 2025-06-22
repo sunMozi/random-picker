@@ -1,114 +1,72 @@
+
+
 # 课堂随机点名系统
 
 ## 项目简介
-
-这是一个基于 React 和 TailwindCSS 的课堂随机点名系统，支持随机点名、点赞统计、公平性分析、学生分组等功能，旨在帮助教师更高效地管理课堂互动。
+这是一个课堂随机点名系统，旨在帮助教师随机选择学生回答问题，使教学互动更加公平和有趣。
 
 ## 功能列表
-
-- 随机点名：根据权重随机选择学生。
-- 点名历史：记录每次点名的时间和学生姓名。
-- 点赞功能：为学生点赞并统计点赞数。
-- 公平性分析：通过图表展示点名的期望概率和实际概率。
-- 学生分组：支持按指定数量分组，并可选择是否随机打乱名单。
-- 数据导出：将学生点名统计和点赞数据导出为 CSV 文件。
-- 搜索功能：快速查找学生信息。
-- 学生信息编辑：支持修改学生的权重和点赞数。
+- 随机选取学生
+- 展示点名历史记录
+- 支持学生权重设置
+- 提供学生喜欢度排行榜
+- 包含导航布局与页面结构组件
 
 ## 技术栈
-
-- **前端框架**：React
-- **样式**：TailwindCSS
-- **图表库**：Recharts
-- **其他依赖**：Axios、React Icons 等
+- 前端: React + TypeScript
+- 样式: Tailwind CSS
+- 构建工具: Vite
+- 状态管理: 内置 React Hooks
+- 数据存储: 本地存储（localStorage）
 
 ## 安装步骤
-
-1. 克隆项目到本地：
-
-   ```bash
-   git clone https://github.com/sunMozi/home-work
-   cd home_work
-   ```
-
-2. 安装依赖：
-
-   ```bash
-   npm install
-   ```
-
-3. 启动开发服务器：
-
-   ```bash
-   npm run dev
-   ```
-
-4. 打开浏览器访问 `http://localhost:3000`。
+1. 克隆仓库
+2. 运行 `npm install` 安装依赖
+3. 运行 `npm run dev` 启动开发服务器
 
 ## 使用说明
-
-1. **随机点名**：
-
-   - 点击“开始”按钮启动随机点名。
-   - 点击“停止”按钮停止点名并记录结果。
-
-2. **点赞功能**：
-
-   - 在点名结果或已点名单中点击“👍”按钮为学生点赞。
-
-3. **公平性分析**：
-
-   - 查看图表中每位学生的期望概率和实际概率。
-
-4. **学生分组**：
-
-   - 输入分组数量并点击“生成分组”按钮。
-   - 勾选“随机打乱名单”以随机分配学生。
-
-5. **数据导出**：
-
-   - 点击“导出数据”按钮下载 CSV 文件。
-
-6. **搜索学生**：
-
-   - 在搜索框中输入学生姓名进行快速查找。
-
-7. **编辑学生信息**：
-   - 点击学生卡片打开编辑对话框，修改权重或点赞数。
+1. 将学生姓名列表放入 `public/names.txt` 文件中，每行一个名字
+2. 访问应用主页，点击“开始点名”按钮
+3. 系统将随机选择一个学生，并播放声音提示
+4. 查看点名历史记录，或查看学生喜欢度排行榜
 
 ## 项目结构
-
 ```
-home_work/
+├── public/
+│   ├── names.txt
+│   └── tick-sound.mp3
 ├── src/
 │   ├── components/
-│   │   ├── sections/
-│   │   │   └── HomeWork.tsx  # 主功能组件
-│   │   ├── dialog/
-│   │   │   └── StudentDialog.tsx  # 学生信息编辑对话框
-│   │   └── NineGrid.tsx  # 九宫格组件
-│   ├── assets/  # 静态资源
-│   └── styles/  # 样式文件
-├── public/
-│   └── names.txt  # 学生名单文件
+│   │   ├── AttendanceBarChart.tsx
+│   │   ├── Layout.tsx
+│   │   ├── NineGrid.tsx
+│   │   └── sections/
+│   │       ├── HomeWork.tsx
+│   │       └── LikeRanking.tsx
+│   ├── shared/
+│   │   ├── BtnLink.tsx
+│   │   ├── Button.tsx
+│   │   ├── Container.tsx
+│   │   ├── NavItem.tsx
+│   │   ├── Paragraph.tsx
+│   │   ├── TextTitle.tsx
+│   │   ├── Title.tsx
+│   │   └── WebsiteLink.tsx
+│   ├── App.tsx
+│   └── main.tsx
+├── README.md
 ├── package.json
-└── README.md
+└── vite.config.ts
 ```
 
 ## 依赖管理
-
-查看 `package.json` 文件了解完整的依赖列表。
+依赖项管理使用 npm，具体依赖信息请查看 `package.json` 文件。
 
 ## 贡献指南
-
-欢迎提交 Issue 或 Pull Request 来改进本项目。
+欢迎为本项目做出贡献。请遵循以下步骤：
+1. Fork 本项目
+2. 创建新分支
+3. 提交 Pull Request
 
 ## 许可证
-
-本项目采用 [MIT License](LICENSE)。
-||||||| empty tree
-=======
-
-# random-picker
-
-> > > > > > > origin/main
+本项目基于 MIT 许可证。详情请查看 `LICENSE` 文件。
