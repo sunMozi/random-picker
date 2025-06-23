@@ -1,12 +1,13 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
-import Header from './Header';
-import NameSelector from './NameSelector';
-import CalledNamesList from './CalledNamesList';
-import FairnessChart from './FairnessChart';
-import StatisticsChart from './StatisticsChart';
-import StudentList from './StudentList';
-import Sidebar from './Sidebar';
-import { StudentDialog } from '../dialog/StudentDialog';
+import './styles/animations.css';
+import Header from './components/sections/Header';
+import NameSelector from './components/sections/NameSelector';
+import CalledNamesList from './components/sections/CalledNamesList';
+import FairnessChart from './components/sections/FairnessChart';
+import StudentList from './components/sections/StudentList';
+import StatisticsChart from './components/sections/StatisticsChart';
+import Sidebar from './components/sections/Sidebar';
+import { StudentDialog } from './components/dialog/StudentDialog';
 
 interface NameEntry {
   name: string;
@@ -101,6 +102,7 @@ export const HomeWork = () => {
     const emojis = ['❤️', '💖', '💕', '💗', '💓', '💞', '💝'];
     const colors = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF'];
 
+    const fragment = document.createDocumentFragment();
     const count = Math.min(3, Math.floor(Math.random() * 2) + 2); // 限制动画元素数量
 
     for (let i = 0; i < count; i++) {
@@ -108,25 +110,19 @@ export const HomeWork = () => {
       like.className = 'heart-animation';
       like.innerText = emojis[Math.floor(Math.random() * emojis.length)];
       like.style.color = colors[Math.floor(Math.random() * colors.length)];
-      like.style.fontSize = `${Math.random() * 10 + 50}px`;
-      like.style.position = 'absolute';
+      like.style.fontSize = `${Math.random() * 10 + 50}px`; // 减小字体大小范围
+      like.style.position = 'absolute'; // 改为绝对定位
       like.style.left = `${button.offsetLeft + button.offsetWidth / 2}px`;
       like.style.top = `${button.offsetTop}px`;
-      like.style.transform = 'translate(-50%, -50%)';
-      like.style.transition = 'all 0.8s ease-out';
-      like.style.opacity = '1';
 
-      document.body.appendChild(like);
-
-      setTimeout(() => {
-        like.style.transform = `translate(-50%, -150%) scale(0.5)`;
-        like.style.opacity = '0';
-      }, 50);
+      fragment.appendChild(like);
 
       setTimeout(() => {
         like.remove();
-      }, 850);
+      }, 600); // 缩短动画持续时间
     }
+
+    button.appendChild(fragment);
   }, []);
 
   useEffect(() => {
@@ -328,7 +324,7 @@ export const HomeWork = () => {
             shuffleEnabled={shuffleEnabled}
             setShuffleEnabled={setShuffleEnabled}
             groupStudents={groupStudents}
-            likes={likes}
+            likes={likes} // 修复：传递 likes 属性
           />
         </div>
         {currentEditName && (

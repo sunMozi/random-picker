@@ -1,0 +1,5 @@
+.heart-animation {
+  pointer-events: none;
+  z-index: 1000;
+  will-change: transform, opacity;
+}
