@@ -30,7 +30,8 @@ const NameSelector: React.FC<NameSelectorProps> = ({
         >
           {selectedName || '准备就绪'}
         </div>
-        {selectedName && (
+
+        {!isRunning && selectedName && (
           <button
             onClick={(e) => {
               const button = e.currentTarget;
@@ -43,8 +44,9 @@ const NameSelector: React.FC<NameSelectorProps> = ({
         )}
       </div>
 
-      <div className="flex justify-center gap-6 mb-8">
-        {!isRunning ? (
+      {/* 控制按钮区域只在非运行时显示 */}
+      {!isRunning && (
+        <div className="flex justify-center gap-6 mb-8">
           <button
             className="px-8 py-3 bg-gradient-to-r from-indigo-500 to-purple-500 text-white rounded-xl shadow-md hover:scale-105 hover:from-purple-500 hover:to-indigo-500 transition-transform focus:ring-4"
             onClick={onStart}
@@ -52,21 +54,27 @@ const NameSelector: React.FC<NameSelectorProps> = ({
           >
             开始
           </button>
-        ) : (
+
+          <button
+            onClick={onReset}
+            className="px-8 py-3 bg-gray-400 text-white rounded-xl shadow-md hover:bg-gray-500 focus:ring-4"
+          >
+            重置已点名单
+          </button>
+        </div>
+      )}
+
+      {/* 可选：若你想在运行中仍保留“停止”按钮，可以放开这个部分 */}
+      {isRunning && (
+        <div className="flex justify-center mb-8">
           <button
             className="px-8 py-3 bg-red-600 text-white rounded-xl shadow-md hover:bg-red-700 focus:ring-4"
             onClick={onStop}
           >
             停止
           </button>
-        )}
-        <button
-          onClick={onReset}
-          className="px-8 py-3 bg-gray-400 text-white rounded-xl shadow-md hover:bg-gray-500 focus:ring-4"
-        >
-          重置已点名单
-        </button>
-      </div>
+        </div>
+      )}
     </div>
   );
 };

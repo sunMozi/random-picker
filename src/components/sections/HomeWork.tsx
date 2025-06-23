@@ -1,4 +1,5 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
+import '../../styles/animations.css';
 import Header from './Header';
 import NameSelector from './NameSelector';
 import CalledNamesList from './CalledNamesList';
@@ -29,8 +30,8 @@ export const HomeWork = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [currentEditName, setCurrentEditName] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState<string>(''); // 添加搜索状态
-  const [filteredNames, setFilteredNames] = useState<NameEntry[]>([]); // 添加过滤后的名单状态
+  const [searchQuery, setSearchQuery] = useState<string>('');
+  const [filteredNames, setFilteredNames] = useState<NameEntry[]>([]);
   const [history, setHistory] = useState<{ name: string; time: string }[]>([]);
   const [studentGroups, setStudentGroups] = useState<string[][]>([]);
   const [groupCount, setGroupCount] = useState<number>(1);
@@ -101,35 +102,27 @@ export const HomeWork = () => {
     const emojis = ['❤️', '💖', '💕', '💗', '💓', '💞', '💝'];
     const colors = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF'];
 
-    const count = Math.min(5, Math.floor(Math.random() * 3) + 3); // 增加动画元素数量
+    const fragment = document.createDocumentFragment();
+    const count = Math.min(3, Math.floor(Math.random() * 2) + 2); // 限制动画元素数量
 
     for (let i = 0; i < count; i++) {
       const like = document.createElement('div');
-      like.className = 'hearthstone-animation';
+      like.className = 'heart-animation';
       like.innerText = emojis[Math.floor(Math.random() * emojis.length)];
       like.style.color = colors[Math.floor(Math.random() * colors.length)];
-      like.style.fontSize = `${Math.random() * 10 + 40}px`;
-      like.style.position = 'absolute';
+      like.style.fontSize = `${Math.random() * 10 + 50}px`; // 减小字体大小范围
+      like.style.position = 'absolute'; // 改为绝对定位
       like.style.left = `${button.offsetLeft + button.offsetWidth / 2}px`;
       like.style.top = `${button.offsetTop}px`;
-      like.style.transform = 'translate(-50%, -50%) scale(1)';
-      like.style.transition = 'all 2s cubic-bezier(0.25, 1, 0.5, 1)'; // 使用更复杂的缓动函数
-      like.style.opacity = '1';
 
-      document.body.appendChild(like);
-
-      setTimeout(() => {
-        const randomX = (Math.random() - 0.5) * 300; // 随机水平偏移
-        const randomY = -Math.random() * 300 - 100; // 随机垂直偏移
-        const randomRotation = Math.random() * 360; // 随机旋转角度
-        like.style.transform = `translate(${randomX}px, ${randomY}px) scale(1.5) rotate(${randomRotation}deg)`;
-        like.style.opacity = '0';
-      }, 50);
+      fragment.appendChild(like);
 
       setTimeout(() => {
         like.remove();
-      }, 2000);
+      }, 600); // 缩短动画持续时间
     }
+
+    button.appendChild(fragment);
   }, []);
 
   useEffect(() => {
@@ -210,34 +203,65 @@ export const HomeWork = () => {
   }, [getWeightedList]);
 
   const stopRandomSelect = useCallback(() => {
-    setIsRunning(false);
+    if (!isRunning) return;
+
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    audioRef.current?.pause();
 
-    setNames((prevNames) => {
-      const updated = prevNames.map((entry) =>
-        entry.name === selectedName ? { ...entry, count: entry.count + 1 } : entry
-      );
-      saveCountsToStorage(updated);
-      return updated;
-    });
+    let delay = RANDOM_INTERVAL;
+    const stopTime = Date.now() + 3000;
+    let finalSelectedName = selectedName; // 默认当前值
 
-    setCalledNames((prev) =>
-      selectedName && !prev.includes(selectedName) ? [...prev, selectedName] : prev
-    );
+    const slowDown = () => {
+      if (Date.now() >= stopTime) {
+        setNames((prevNames) => {
+          const updated = prevNames.map((entry) =>
+            entry.name === finalSelectedName ? { ...entry, count: entry.count + 1 } : entry
+          );
+          saveCountsToStorage(updated);
+          return updated;
+        });
 
-    if (selectedName) {
-      const timestamp = new Date().toLocaleString();
-      setHistory((prevHistory) => {
-        const updatedHistory = [...prevHistory, { name: selectedName, time: timestamp }];
-        localStorage.setItem('callHistory', JSON.stringify(updatedHistory));
-        return updatedHistory;
-      });
-    }
-  }, [selectedName, saveCountsToStorage]);
+        setCalledNames((prev) =>
+          finalSelectedName && !prev.includes(finalSelectedName)
+            ? [...prev, finalSelectedName]
+            : prev
+        );
+
+        if (finalSelectedName) {
+          const timestamp = new Date().toLocaleString();
+          setHistory((prevHistory) => {
+            const updatedHistory = [...prevHistory, { name: finalSelectedName, time: timestamp }];
+            localStorage.setItem('callHistory', JSON.stringify(updatedHistory));
+            return updatedHistory;
+          });
+        }
+
+        setSelectedName(finalSelectedName);
+        setIsRunning(false);
+        return;
+      }
+
+      setTimeout(() => {
+        const newWeightedList = getWeightedList();
+        if (newWeightedList.length > 0) {
+          const randomIndex = Math.floor(Math.random() * newWeightedList.length);
+          const selectedEntry = newWeightedList[randomIndex];
+          if (selectedEntry) {
+            finalSelectedName = selectedEntry.name;
+            setSelectedName(selectedEntry.name);
+          }
+        }
+
+        delay += 50;
+        slowDown();
+      }, delay);
+    };
+
+    slowDown();
+  }, [getWeightedList, saveCountsToStorage, isRunning, selectedName]);
 
   const resetCalledNames = useCallback(() => {
     setSelectedName('');
