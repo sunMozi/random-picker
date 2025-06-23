@@ -1,5 +1,5 @@
-import { Layout } from './components/Layout';
-import { HomeWork } from './components/sections/HomeWork';
+import { Layout } from './components/layout/Layout';
+import { HomeWork } from './view/Picker';
 
 function App() {
   return (

@@ -1,13 +1,13 @@
 import { useEffect, useState, useRef, useCallback, useMemo } from 'react';
-import '../../styles/animations.css';
-import Header from './Header';
-import NameSelector from './NameSelector';
-import CalledNamesList from './CalledNamesList';
-import FairnessChart from './FairnessChart';
-import StatisticsChart from './StatisticsChart';
-import StudentList from './StudentList';
-import Sidebar from './Sidebar';
-import { StudentDialog } from '../dialog/StudentDialog';
+import '../styles/animations.css';
+import Header from '../components/sections/Header';
+import NameSelector from '../components/sections/NameSelector';
+import CalledNamesList from '../components/sections/CalledNamesList';
+import FairnessChart from '../components/sections/FairnessChart';
+import StatisticsChart from '../components/sections/StatisticsChart';
+import StudentList from '../components/sections/StudentList';
+import Sidebar from '../components/sections/Sidebar';
+import { StudentDialog } from '../components/dialog/StudentDialog';
 
 interface NameEntry {
   name: string;
