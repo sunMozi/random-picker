@@ -1,4 +1,4 @@
-import { NineGrid } from '../NineGrid';
+import { NineGrid } from './NineGrid';
 import { LikeRanking } from './LikeRanking';
 
 interface SidebarProps {
