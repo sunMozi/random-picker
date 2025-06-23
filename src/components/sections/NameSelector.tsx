@@ -1,5 +1,5 @@
-// NameSelector.tsx
 import React from 'react';
+import '../../styles/animations.css';
 
 interface NameSelectorProps {
   selectedName: string;
@@ -24,8 +24,8 @@ const NameSelector: React.FC<NameSelectorProps> = ({
     <div className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200">
       <div className="relative h-64 mb-8 flex flex-col items-center justify-center">
         <div
-          className={`text-7xl font-extrabold transition-all duration-200 select-none ${
-            isRunning ? 'text-indigo-600 animate-pulse' : 'text-gray-900'
+          className={`text-7xl font-extrabold ${
+            isRunning ? 'hearthstone-animate' : 'text-gray-900 select-none'
           }`}
         >
           {selectedName || '准备就绪'}
@@ -33,10 +33,10 @@ const NameSelector: React.FC<NameSelectorProps> = ({
         {selectedName && (
           <button
             onClick={(e) => {
-              const button = e.target as HTMLElement;
+              const button = e.currentTarget;
               onLike(selectedName, button);
             }}
-            className="mt-4 px-6 py-2 bg-pink-300 text-pink-900 rounded-full shadow-md relative overflow-hidden"
+            className="mt-4 px-6 py-2 bg-pink-300 text-pink-900 rounded-full shadow-md relative overflow-hidden select-none"
           >
             👍 点赞
           </button>

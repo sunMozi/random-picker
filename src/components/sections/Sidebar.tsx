@@ -12,7 +12,7 @@ interface SidebarProps {
   shuffleEnabled: boolean;
   setShuffleEnabled: (enabled: boolean) => void;
   groupStudents: (groupCount: number) => string[][];
-  likes: Record<string, number>; // 修复：添加 likes 属性
+  likes: Record<string, number>;
 }
 
 const Sidebar = ({

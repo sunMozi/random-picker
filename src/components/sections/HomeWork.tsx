@@ -101,31 +101,34 @@ export const HomeWork = () => {
     const emojis = ['❤️', '💖', '💕', '💗', '💓', '💞', '💝'];
     const colors = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF'];
 
-    const count = Math.min(3, Math.floor(Math.random() * 2) + 2); // 限制动画元素数量
+    const count = Math.min(5, Math.floor(Math.random() * 3) + 3); // 增加动画元素数量
 
     for (let i = 0; i < count; i++) {
       const like = document.createElement('div');
-      like.className = 'heart-animation';
+      like.className = 'hearthstone-animation';
       like.innerText = emojis[Math.floor(Math.random() * emojis.length)];
       like.style.color = colors[Math.floor(Math.random() * colors.length)];
-      like.style.fontSize = `${Math.random() * 10 + 50}px`;
+      like.style.fontSize = `${Math.random() * 10 + 40}px`;
       like.style.position = 'absolute';
       like.style.left = `${button.offsetLeft + button.offsetWidth / 2}px`;
       like.style.top = `${button.offsetTop}px`;
-      like.style.transform = 'translate(-50%, -50%)';
-      like.style.transition = 'all 0.8s ease-out';
+      like.style.transform = 'translate(-50%, -50%) scale(1)';
+      like.style.transition = 'all 2s cubic-bezier(0.25, 1, 0.5, 1)'; // 使用更复杂的缓动函数
       like.style.opacity = '1';
 
       document.body.appendChild(like);
 
       setTimeout(() => {
-        like.style.transform = `translate(-50%, -150%) scale(0.5)`;
+        const randomX = (Math.random() - 0.5) * 300; // 随机水平偏移
+        const randomY = -Math.random() * 300 - 100; // 随机垂直偏移
+        const randomRotation = Math.random() * 360; // 随机旋转角度
+        like.style.transform = `translate(${randomX}px, ${randomY}px) scale(1.5) rotate(${randomRotation}deg)`;
         like.style.opacity = '0';
       }, 50);
 
       setTimeout(() => {
         like.remove();
-      }, 850);
+      }, 2000);
     }
   }, []);
 

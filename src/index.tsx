@@ -203,34 +203,55 @@ export const HomeWork = () => {
   }, [getWeightedList]);
 
   const stopRandomSelect = useCallback(() => {
-    setIsRunning(false);
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
     }
-    audioRef.current?.pause();
 
-    setNames((prevNames) => {
-      const updated = prevNames.map((entry) =>
-        entry.name === selectedName ? { ...entry, count: entry.count + 1 } : entry
-      );
-      saveCountsToStorage(updated);
-      return updated;
-    });
+    let delay = RANDOM_INTERVAL;
+    const stopTime = Date.now() + 3000; // 设置停止时间为 3 秒后
 
-    setCalledNames((prev) =>
-      selectedName && !prev.includes(selectedName) ? [...prev, selectedName] : prev
-    );
+    const slowDown = () => {
+      if (Date.now() >= stopTime) {
+        setIsRunning(false);
 
-    if (selectedName) {
-      const timestamp = new Date().toLocaleString();
-      setHistory((prevHistory) => {
-        const updatedHistory = [...prevHistory, { name: selectedName, time: timestamp }];
-        localStorage.setItem('callHistory', JSON.stringify(updatedHistory));
-        return updatedHistory;
-      });
-    }
-  }, [selectedName, saveCountsToStorage]);
+        setNames((prevNames) => {
+          const updated = prevNames.map((entry) =>
+            entry.name === selectedName ? { ...entry, count: entry.count + 1 } : entry
+          );
+          saveCountsToStorage(updated);
+          return updated;
+        });
+
+        setCalledNames((prev) =>
+          selectedName && !prev.includes(selectedName) ? [...prev, selectedName] : prev
+        );
+
+        if (selectedName) {
+          const timestamp = new Date().toLocaleString();
+          setHistory((prevHistory) => {
+            const updatedHistory = [...prevHistory, { name: selectedName, time: timestamp }];
+            localStorage.setItem('callHistory', JSON.stringify(updatedHistory));
+            return updatedHistory;
+          });
+        }
+        return;
+      }
+
+      setTimeout(() => {
+        const weightedList = getWeightedList();
+        if (weightedList.length > 0) {
+          const randomIndex = Math.floor(Math.random() * weightedList.length);
+          setSelectedName(weightedList[randomIndex].name);
+        }
+
+        delay += 50; // 每次增加间隔时间
+        slowDown();
+      }, delay);
+    };
+
+    slowDown();
+  }, [getWeightedList, selectedName, saveCountsToStorage]);
 
   const resetCalledNames = useCallback(() => {
     setSelectedName('');
