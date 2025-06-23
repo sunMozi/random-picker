@@ -36,6 +36,7 @@ export const HomeWork = () => {
   const [studentGroups, setStudentGroups] = useState<string[][]>([]);
   const [groupCount, setGroupCount] = useState<number>(1);
   const [shuffleEnabled, setShuffleEnabled] = useState<boolean>(true);
+  const [showShine, setShowShine] = useState(false);
 
   const handleOpenDialog = (name: string) => {
     setCurrentEditName(name);
@@ -102,7 +103,6 @@ export const HomeWork = () => {
     const emojis = ['❤️', '💖', '💕', '💗', '💓', '💞', '💝'];
     const colors = ['#FF5252', '#FF4081', '#E040FB', '#7C4DFF', '#536DFE', '#448AFF', '#40C4FF'];
 
-    const fragment = document.createDocumentFragment();
     const count = Math.min(3, Math.floor(Math.random() * 2) + 2); // 限制动画元素数量
 
     for (let i = 0; i < count; i++) {
@@ -110,19 +110,24 @@ export const HomeWork = () => {
       like.className = 'heart-animation';
       like.innerText = emojis[Math.floor(Math.random() * emojis.length)];
       like.style.color = colors[Math.floor(Math.random() * colors.length)];
-      like.style.fontSize = `${Math.random() * 10 + 50}px`; // 减小字体大小范围
-      like.style.position = 'absolute'; // 改为绝对定位
-      like.style.left = `${button.offsetLeft + button.offsetWidth / 2}px`;
-      like.style.top = `${button.offsetTop}px`;
+      like.style.fontSize = `${Math.random() * 10 + 20}px`; // 调整字体大小范围
+      like.style.position = 'fixed'; // 使用固定定位
+      like.style.left = `${button.getBoundingClientRect().left + button.offsetWidth / 2}px`;
+      like.style.top = `${button.getBoundingClientRect().top}px`;
+      like.style.pointerEvents = 'none'; // 防止干扰点击
 
-      fragment.appendChild(like);
+      document.body.appendChild(like);
+
+      setTimeout(() => {
+        like.style.transform = `translateY(-100px) scale(1.5)`;
+        like.style.opacity = '0';
+        like.style.transition = 'transform 0.6s ease, opacity 0.6s ease';
+      }, 0);
 
       setTimeout(() => {
         like.remove();
-      }, 600); // 缩短动画持续时间
+      }, 600); // 动画持续时间
     }
-
-    button.appendChild(fragment);
   }, []);
 
   useEffect(() => {
@@ -167,9 +172,16 @@ export const HomeWork = () => {
   }, [loadSavedCounts]);
 
   const getWeightedList = useCallback(() => {
-    return names.flatMap((entry) =>
+    const list = names.flatMap((entry) =>
       entry.weight >= MIN_WEIGHT ? Array(entry.weight).fill(entry) : []
     );
+
+    for (let i = list.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [list[i], list[j]] = [list[j], list[i]];
+    }
+
+    return list;
   }, [names]);
 
   const startRandomSelect = useCallback(() => {
@@ -241,6 +253,15 @@ export const HomeWork = () => {
 
         setSelectedName(finalSelectedName);
         setIsRunning(false);
+        setShowShine(true);
+        setTimeout(() => setShowShine(false), 2500);
+
+        audioRef.current?.play().catch((err) => {
+          if (err.name !== 'NotAllowedError') {
+            console.error('音效播放失败:', err);
+          }
+        });
+
         return;
       }
 
@@ -331,6 +352,7 @@ export const HomeWork = () => {
               onStop={stopRandomSelect}
               onReset={resetCalledNames}
               onLike={handleLike}
+              showShine={showShine}
             />
             <CalledNamesList calledNames={calledNames} onLike={handleLike} />
             <FairnessChart fairnessAnalysis={fairnessAnalysis} />

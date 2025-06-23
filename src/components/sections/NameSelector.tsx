@@ -9,6 +9,7 @@ interface NameSelectorProps {
   onStop: () => void;
   onReset: () => void;
   onLike: (name: string, button: HTMLElement) => void;
+  showShine: boolean;
 }
 
 const NameSelector: React.FC<NameSelectorProps> = ({
@@ -19,14 +20,18 @@ const NameSelector: React.FC<NameSelectorProps> = ({
   onStop,
   onReset,
   onLike,
+  showShine,
 }) => {
   return (
     <div className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200">
       <div className="relative h-64 mb-8 flex flex-col items-center justify-center">
         <div
-          className={`text-7xl font-extrabold ${
-            isRunning ? 'hearthstone-animate' : 'text-gray-900 select-none'
-          }`}
+          className={`text-[3.5rem] md:text-[5rem] lg:text-[6rem]
+                      font-extrabold leading-tight tracking-wide text-center relative z-10 ${
+                        isRunning
+                          ? 'hearthstone-animate'
+                          : `text-gray-900 select-none ${showShine ? 'shine-animation' : ''}`
+                      }`}
         >
           {selectedName || '准备就绪'}
         </div>

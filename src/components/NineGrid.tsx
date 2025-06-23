@@ -1,10 +1,7 @@
 import { useState, useRef, useEffect, useCallback, useMemo } from 'react';
 
 export const NineGrid = () => {
-  const items = useMemo(
-    () => ['1', '2', '3', '4', '5', '6', '7', '8', '9'],
-    []
-  );
+  const items = useMemo(() => ['1', '2', '3', '4', '5', '6', '7', '8', '9'], []);
 
   const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
   const [isDrawing, setIsDrawing] = useState(false);
@@ -16,7 +13,7 @@ export const NineGrid = () => {
   const finalIndexRef = useRef(0);
   const timerRef = useRef<number | null>(null);
 
-  const MAX_DRAW_COUNT = 20; // 新增：最大抽奖次数
+  const MAX_DRAW_COUNT = 20;
 
   const clearTimer = () => {
     if (timerRef.current !== null) {
@@ -33,7 +30,7 @@ export const NineGrid = () => {
     setIsDrawing(false);
     setDrawCount(0);
     stepRef.current = 0;
-    intervalRef.current = 50; // 修改：重置为新的初始间隔时间
+    intervalRef.current = 50;
   };
 
   const spin = useCallback(() => {
@@ -44,7 +41,7 @@ export const NineGrid = () => {
     stepRef.current += 1;
 
     if (totalSteps - currentStep < 8) {
-      intervalRef.current += 20; // 修改：减少每步增加的时间
+      intervalRef.current += 20;
     }
 
     if (stepRef.current < totalSteps) {
@@ -54,7 +51,7 @@ export const NineGrid = () => {
       setResult(items[finalIndexRef.current]);
       setIsDrawing(false);
       stepRef.current = 0;
-      intervalRef.current = 50; // 修改：重置为新的初始间隔时间
+      intervalRef.current = 50;
     }
   }, [items]);
 
@@ -80,10 +77,7 @@ export const NineGrid = () => {
 
   return (
     <div className="" role="region" aria-label="九宫格抽奖区">
-      <div
-        className="mt-2 text-center text-lg font-bold text-green-700"
-        aria-live="polite"
-      >
+      <div className="mt-2 text-center text-lg font-bold text-green-700" aria-live="polite">
         {'恭喜抽中了' + result + '号题目' || '请等待抽奖结果'}
       </div>
 
@@ -113,11 +107,7 @@ export const NineGrid = () => {
           aria-disabled={isDrawing || drawCount >= MAX_DRAW_COUNT}
           aria-live="assertive"
         >
-          {isDrawing
-            ? '抽奖中...'
-            : drawCount >= MAX_DRAW_COUNT
-            ? '抽奖次数已用完'
-            : '立即抽奖'}
+          {isDrawing ? '抽奖中...' : drawCount >= MAX_DRAW_COUNT ? '抽奖次数已用完' : '立即抽奖'}
         </button>
         <button
           onClick={reset}

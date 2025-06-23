@@ -45,3 +45,63 @@
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+@keyframes shine {
+  0% {
+    text-shadow: 0 0 0 transparent;
+    transform: scale(1);
+    opacity: 0.8;
+  }
+  10% {
+    text-shadow: 0 0 10px #fff, 0 0 20px gold, 0 0 40px gold, 0 0 60px orange;
+    transform: scale(1.1);
+    opacity: 1;
+  }
+  30% {
+    text-shadow: 0 0 20px #fff, 0 0 30px gold, 0 0 50px orange;
+    transform: scale(1.05);
+  }
+  50% {
+    text-shadow: 0 0 25px #fff, 0 0 40px gold, 0 0 60px orange;
+    transform: scale(1.1);
+  }
+  80% {
+    text-shadow: 0 0 10px #fff, 0 0 20px gold;
+    transform: scale(1.02);
+  }
+  100% {
+    text-shadow: 0 0 0 transparent;
+    transform: scale(1);
+    opacity: 0.9;
+  }
+}
+
+.shine-animation {
+  animation: shine 2.5s ease-in-out;
+}
+
+.shine-animation::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -75%;
+  width: 50%;
+  height: 100%;
+  background: linear-gradient(
+    120deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  transform: skewX(-25deg);
+  animation: lightSweep 1.2s ease-in-out forwards;
+}
+
+@keyframes lightSweep {
+  0% {
+    left: -75%;
+  }
+  100% {
+    left: 125%;
+  }
+}

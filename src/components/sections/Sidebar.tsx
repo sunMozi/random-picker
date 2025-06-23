@@ -41,7 +41,7 @@ const Sidebar = ({
       </div>
 
       <div className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200">
-        <LikeRanking likes={likes} title="点赞榜" limit={names.length} /> {/* 修复：传递 likes */}
+        <LikeRanking likes={likes} title="点赞榜" limit={names.length} />
       </div>
 
       <div className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200">
