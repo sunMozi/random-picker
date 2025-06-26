@@ -27,7 +27,7 @@
    ```
 3. 进入项目目录并安装依赖：
    ```bash
-   cd classroom-random-caller
+   cd random-picker
    npm install
    ```
 4. 启动开发服务器：
