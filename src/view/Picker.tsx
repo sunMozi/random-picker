@@ -256,11 +256,11 @@ export const HomeWork = () => {
         setShowShine(true);
         setTimeout(() => setShowShine(false), 2500);
 
-        audioRef.current?.play().catch((err) => {
-          if (err.name !== 'NotAllowedError') {
-            console.error('音效播放失败:', err);
-          }
-        });
+        // audioRef.current?.play().catch((err) => {
+        //   if (err.name !== 'NotAllowedError') {
+        //     console.error('音效播放失败:', err);
+        //   }
+        // });
 
         return;
       }
