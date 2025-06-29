@@ -8,6 +8,8 @@ import StatisticsChart from '../components/picker/StatisticsChart';
 import StudentList from '../components/picker/StudentList';
 import Sidebar from '../components/picker/Sidebar';
 import { StudentDialog } from '../components/dialog/StudentDialog';
+import AdminDialog from '../components/dialog/AdminDialog';
+import { Button } from '@mui/material';
 
 interface NameEntry {
   name: string;
@@ -37,6 +39,15 @@ export const HomeWork = () => {
   const [groupCount, setGroupCount] = useState<number>(1);
   const [shuffleEnabled, setShuffleEnabled] = useState<boolean>(true);
   const [showShine, setShowShine] = useState(false);
+  const [adminDialogOpen, setAdminDialogOpen] = useState(false);
+
+  const handleOpenAdminDialog = () => {
+    setAdminDialogOpen(true);
+  };
+
+  const handleSaveAdminChanges = (updatedNames: { name: string; weight: number }[]) => {
+    setNames(updatedNames.map((entry) => ({ ...entry, count: 0, number: 0 }))); // 更新名单
+  };
 
   const handleOpenDialog = (name: string) => {
     setCurrentEditName(name);
@@ -344,6 +355,9 @@ export const HomeWork = () => {
         <div className="grid grid-cols-12 gap-6">
           <main className="col-span-8 w-200 space-y-10">
             <Header />
+            <Button onClick={handleOpenAdminDialog} color="primary" variant="contained">
+              ADMIN
+            </Button>
             <NameSelector
               selectedName={selectedName}
               isRunning={isRunning}
@@ -391,6 +405,13 @@ export const HomeWork = () => {
           />
         )}
       </div>
+
+      <AdminDialog
+        open={adminDialogOpen}
+        onClose={() => setAdminDialogOpen(false)}
+        names={names.map(({ name, weight }) => ({ name, weight }))}
+        onSave={handleSaveAdminChanges}
+      />
     </div>
   );
 };
