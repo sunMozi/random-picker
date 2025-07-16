@@ -39,6 +39,7 @@ export const HomeWork = () => {
   const [shuffleEnabled, setShuffleEnabled] = useState<boolean>(true);
   const [showShine, setShowShine] = useState(false);
   const [adminDialogOpen, setAdminDialogOpen] = useState(false);
+  const [isStopping, setIsStopping] = useState(false); // 新增
 
   const handleSaveAdminChanges = (updatedNames: { name: string; weight: number }[]) => {
     setNames(updatedNames.map((entry) => ({ ...entry, count: 0, number: 0 }))); // 更新名单
@@ -191,6 +192,7 @@ export const HomeWork = () => {
   }, [names]);
 
   const startRandomSelect = useCallback(() => {
+    setIsStopping(false); // 新增：启动时确保isStopping为false
     const weightedList = getWeightedList();
     if (weightedList.length === 0) {
       alert('请先设置有效权重(至少一个权重≥1)');
@@ -222,7 +224,7 @@ export const HomeWork = () => {
 
   const stopRandomSelect = useCallback(() => {
     if (!isRunning) return;
-
+    setIsStopping(true); // 新增：点击停止立即隐藏停止按钮
     if (intervalRef.current) {
       clearInterval(intervalRef.current);
       intervalRef.current = null;
@@ -259,6 +261,7 @@ export const HomeWork = () => {
 
         setSelectedName(finalSelectedName);
         setIsRunning(false);
+        setIsStopping(false); // 新增：完成减速后重置isStopping
         setShowShine(true);
         setTimeout(() => setShowShine(false), 2500);
 
@@ -359,6 +362,7 @@ export const HomeWork = () => {
               onReset={resetCalledNames}
               onLike={handleLike}
               showShine={showShine}
+              isStopping={isStopping} // 新增传入isStopping状态
             />
             <CalledNamesList calledNames={calledNames} onLike={handleLike} />
             <FairnessChart fairnessAnalysis={fairnessAnalysis} />

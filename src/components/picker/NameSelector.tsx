@@ -10,6 +10,7 @@ interface NameSelectorProps {
   onReset: () => void;
   onLike: (name: string, button: HTMLElement) => void;
   showShine: boolean;
+  isStopping: boolean; // 新增：点击停止后，停止按钮隐藏
 }
 
 const NameSelector: React.FC<NameSelectorProps> = ({
@@ -21,6 +22,7 @@ const NameSelector: React.FC<NameSelectorProps> = ({
   onReset,
   onLike,
   showShine,
+  isStopping, // 新增解构
 }) => {
   return (
     <div className="bg-white shadow-lg rounded-2xl p-8 border border-gray-200">
@@ -70,16 +72,17 @@ const NameSelector: React.FC<NameSelectorProps> = ({
       )}
 
       {/* 可选：若你想在运行中仍保留“停止”按钮，可以放开这个部分 */}
-      {isRunning && (
-        <div className="flex justify-center mb-8">
-          <button
-            className="px-8 py-3 bg-red-600 text-white rounded-xl shadow-md hover:bg-red-700 focus:ring-4"
-            onClick={onStop}
-          >
-            停止
-          </button>
-        </div>
-      )}
+      {isRunning &&
+        !isStopping && ( // 修改：只有运行状态且未点击停止时显示停止按钮
+          <div className="flex justify-center mb-8">
+            <button
+              className="px-8 py-3 bg-red-600 text-white rounded-xl shadow-md hover:bg-red-700 focus:ring-4"
+              onClick={onStop}
+            >
+              停止
+            </button>
+          </div>
+        )}
     </div>
   );
 };
